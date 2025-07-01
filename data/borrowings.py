@@ -1,3 +1,4 @@
+from cache.borrower import cache_borrowed_book
 from . import con, cur
 
 # def test():
@@ -54,6 +55,10 @@ def borrow_book(borrower: str, title: str) -> bool:
         cur.execute("INSERT INTO borrowings(book_id, borrower) VALUES (?, ?)", (book_id, borrower))
         cur.execute("UPDATE books SET available = 0 WHERE book_id = ?", (book_id,))
         con.commit()
+
+        #캐싱
+        cache_borrowed_book(borrower, title)
+
         return True
     except Exception as e:
         print("대출 오류:", e)
