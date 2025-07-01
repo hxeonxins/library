@@ -18,3 +18,8 @@ from data.borrowings import delete_available_book
 
 def remove_book_if_available(book_id: int) -> bool:
     return delete_available_book(book_id)
+
+from data.borrowings import borrow_book as db_borrow_book
+
+def borrow_book_service(borrower: str, title: str) -> bool:
+    return db_borrow_book(borrower, title)

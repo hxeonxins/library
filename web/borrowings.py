@@ -22,3 +22,15 @@ def get_books():
 def delete_book(book_id: int):
     success = service.remove_book_if_available(book_id)
     return success
+
+from service.borrowings import borrow_book_service
+from fastapi.responses import Response
+
+class BorrowRequest(BaseModel):
+    borrower: str
+    title: str
+
+@router.post("/borrows")
+def borrow_book(req: BorrowRequest):
+    success = borrow_book_service(req.borrower, req.title)
+    return Response(content="true" if success else "false", media_type="text/plain")
