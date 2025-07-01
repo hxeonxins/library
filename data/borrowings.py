@@ -63,3 +63,21 @@ def borrow_book(borrower: str, title: str) -> bool:
     except Exception as e:
         print("대출 오류:", e)
         return False
+
+
+def get_borrowings_by_month(borrow_month: str):
+    con = connect("study.db", check_same_thread=False)
+    cur = con.cursor()
+
+    like_pattern = borrow_month + "%"  # 예: 2025-06%
+
+    sql = """
+          SELECT b.borrower, bk.title, bk.author
+          FROM borrowings b
+                   JOIN books bk ON b.book_id = bk.book_id
+          WHERE b.borrowed_at LIKE ? \
+          """
+    cur.execute(sql, (like_pattern,))
+    rows = cur.fetchall()
+
+    return [{"borrower": r[0], "title": r[1], "author": r[2]} for r in rows]

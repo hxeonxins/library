@@ -34,3 +34,8 @@ class BorrowRequest(BaseModel):
 def borrow_book(req: BorrowRequest):
     success = borrow_book_service(req.borrower, req.title)
     return Response(content="true" if success else "false", media_type="text/plain")
+
+@router.get("/borrows/month/{borrow_month}")
+def get_borrowed_books_by_month(borrow_month: str):
+    data = service.retrieve_borrowings_by_month(borrow_month)
+    return data

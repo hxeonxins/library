@@ -23,3 +23,12 @@ from data.borrowings import borrow_book as db_borrow_book
 
 def borrow_book_service(borrower: str, title: str) -> bool:
     return db_borrow_book(borrower, title)
+
+from data.borrowings import get_borrowings_by_month
+
+def retrieve_borrowings_by_month(month: str):
+    try:
+        return get_borrowings_by_month(month)
+    except Exception as e:
+        print("대출 월 조회 오류:", e)
+        return []
