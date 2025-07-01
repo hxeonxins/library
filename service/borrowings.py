@@ -43,5 +43,5 @@ def get_borrowed_books_from_cache(borrower: str):
 def return_book_service(borrower: str, title: str) -> bool:
     success = return_book_db(borrower, title)
     if success:
-        remove_cached_book(borrower, title)
+        remove_cached_book(borrower, title) # 레디스에서 책 제목 삭제
     return success

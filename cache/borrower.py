@@ -16,4 +16,4 @@ def get_cached_books(borrower: str):
 # 대출자 Redis 캐시 삭제 (반납 시 등)
 def remove_cached_book(borrower: str, title: str):
     key = f"borrower:{borrower}:books"
-    r.lrem(key, 0, title)
+    r.lrem(key, 0, title) #Redis 리스트에서 값이 title인 항목을 모두 삭제
