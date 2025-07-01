@@ -13,3 +13,7 @@ class bookRegister(BaseModel):
 @router.post("/books")
 def register_book(req: bookRegister):
     return service.register_book(req.title, req.author)
+
+@router.get("/books")
+def get_books():
+    return service.list_available_books()

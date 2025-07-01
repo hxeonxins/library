@@ -1,5 +1,7 @@
 from data import borrowings as data
 from cache import borrower as cache
+from data.borrowings import get_available_books
+
 
 # def test():
 #     db_test = data.test()
@@ -8,3 +10,6 @@ from cache import borrower as cache
 
 def register_book(title: str, author: str):
     return data.insert_book(title, author)
+
+def list_available_books():
+    return get_available_books()

@@ -18,3 +18,8 @@ def insert_book(title: str, author: str) -> bool:
         print("도서 등록 에러:", e)
         return False
 
+def get_available_books():
+    with connect("study.db") as con:
+        cur = con.cursor()
+        cur.execute("SELECT title, author FROM books WHERE available = 1")
+        return [{"title": t, "author": a} for t, a in cur.fetchall()]
