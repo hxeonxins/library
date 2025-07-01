@@ -32,3 +32,9 @@ def retrieve_borrowings_by_month(month: str):
     except Exception as e:
         print("대출 월 조회 오류:", e)
         return []
+
+from cache.borrower import get_cached_books
+
+def get_borrowed_books_from_cache(borrower: str):
+    books = get_cached_books(borrower)
+    return {"borrower": borrower, "books": books}

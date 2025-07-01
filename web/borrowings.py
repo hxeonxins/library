@@ -39,3 +39,7 @@ def borrow_book(req: BorrowRequest):
 def get_borrowed_books_by_month(borrow_month: str):
     data = service.retrieve_borrowings_by_month(borrow_month)
     return data
+
+@router.get("/borrowers/{borrower}/books")
+def get_borrowed_books(borrower: str):
+    return service.get_borrowed_books_from_cache(borrower)
