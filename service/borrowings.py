@@ -13,3 +13,8 @@ def register_book(title: str, author: str):
 
 def list_available_books():
     return get_available_books()
+
+from data.borrowings import delete_available_book
+
+def remove_book_if_available(book_id: int) -> bool:
+    return delete_available_book(book_id)

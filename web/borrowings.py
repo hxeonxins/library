@@ -17,3 +17,8 @@ def register_book(req: bookRegister):
 @router.get("/books")
 def get_books():
     return service.list_available_books()
+
+@router.delete("/books/{book_id}")
+def delete_book(book_id: int):
+    success = service.remove_book_if_available(book_id)
+    return success

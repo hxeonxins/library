@@ -23,3 +23,16 @@ def get_available_books():
         cur = con.cursor()
         cur.execute("SELECT title, author FROM books WHERE available = 1")
         return [{"title": t, "author": a} for t, a in cur.fetchall()]
+
+def delete_available_book(book_id: int) -> bool:
+    with connect("study.db") as con:
+        cur = con.cursor()
+        cur.execute("SELECT available FROM books WHERE book_id = ?", (book_id,))
+        row = cur.fetchone()
+
+        if row is None or row[0] == 0:  # 책이 없거나 대출 중
+            return False
+
+        cur.execute("DELETE FROM books WHERE book_id = ?", (book_id,))
+        con.commit()
+        return True
