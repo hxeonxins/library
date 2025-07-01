@@ -23,7 +23,7 @@ def delete_book(book_id: int):
     success = service.remove_book_if_available(book_id)
     return success
 
-from service.borrowings import borrow_book_service
+from service.borrowings import borrow_book_service, return_book_service
 from fastapi.responses import Response
 
 class BorrowRequest(BaseModel):
@@ -43,3 +43,7 @@ def get_borrowed_books_by_month(borrow_month: str):
 @router.get("/borrowers/{borrower}/books")
 def get_borrowed_books(borrower: str):
     return service.get_borrowed_books_from_cache(borrower)
+
+@router.post("/return")
+def return_book(req: BorrowRequest):
+    return return_book_service(req.borrower, req.title)

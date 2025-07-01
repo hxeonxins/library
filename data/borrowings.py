@@ -81,3 +81,31 @@ def get_borrowings_by_month(borrow_month: str):
     rows = cur.fetchall()
 
     return [{"borrower": r[0], "title": r[1], "author": r[2]} for r in rows]
+
+def return_book_db(borrower: str, title: str) -> bool:
+    try:
+        with connect("study.db") as con:
+            cur = con.cursor()
+
+            # 책 ID 찾기
+            cur.execute("SELECT book_id FROM books WHERE title = ?", (title,))
+            row = cur.fetchone()
+            if not row:
+                return False
+            book_id = row[0]
+
+            # borrowings에 존재하는지 확인
+            cur.execute("SELECT * FROM borrowings WHERE book_id = ? AND borrower = ? AND returned_at IS NULL",
+                        (book_id, borrower))
+            if not cur.fetchone():
+                return False
+
+            # 반환 처리
+            cur.execute("UPDATE books SET available = 1 WHERE book_id = ?", (book_id,))
+            cur.execute("UPDATE borrowings SET returned_at = CURRENT_TIMESTAMP WHERE book_id = ? AND borrower = ?",
+                        (book_id, borrower))
+            con.commit()
+        return True
+    except Exception as e:
+        print("반납 오류:", e)
+        return False
