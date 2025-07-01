@@ -8,7 +8,7 @@ cur: Optional[Cursor] = None
 def get_db():
     global con, cur
     if con is None:
-        con = connect('./mydb.db', check_same_thread=False)
+        con = connect('./study.db', check_same_thread=False)
         cur = con.cursor()
         # books 테이블 구성
         sql = ("create table if not exists books("
